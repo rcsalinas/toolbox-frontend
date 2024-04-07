@@ -26,6 +26,11 @@ export default function NavBar() {
 			dispatch(setLoading(false));
 		}
 	};
+	const handleInputChange = (e) => {
+		if (e.target.value === '') {
+			searchForFile();
+		}
+	};
 	return (
 		<Navbar expand="lg" className="bg-body-tertiary mb-4">
 			<Container
@@ -48,6 +53,7 @@ export default function NavBar() {
 						placeholder="File name"
 						className="me-2"
 						aria-label="Search"
+						onChange={handleInputChange}
 					/>
 					<Button variant="outline-success" type="submit">
 						Search
