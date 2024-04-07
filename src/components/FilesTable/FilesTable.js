@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import PropTypes from 'prop-types';
 
 function FilesTable({ rows }) {
+	console.log(rows);
 	return (
 		<Table striped bordered hover>
 			<thead>

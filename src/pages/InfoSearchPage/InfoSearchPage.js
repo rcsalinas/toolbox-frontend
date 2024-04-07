@@ -1,39 +1,27 @@
 import React from 'react';
 import InfoSearchPageUI from './InfoSearchPageUI';
-
-const mockRows = [
-	{
-		file: 'file1.txt',
-		lines: [
-			{
-				text: 'Hello World',
-				number: 42,
-				hex: '0x2A',
-			},
-			{
-				text: 'Goodbye World',
-				number: 24,
-				hex: '0x18',
-			},
-		],
-	},
-	{
-		file: 'file2.txt',
-		lines: [
-			{
-				text: 'Hello World',
-				number: 42,
-				hex: '0x2A',
-			},
-			{
-				text: 'Goodbye World',
-				number: 24,
-				hex: '0x18',
-			},
-		],
-	},
-];
+import getFilesData from '../../networking/endpoints/getFilesData';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../redux/slices/loadingSlice';
 
 export default function InfoSearchPage() {
-	return <InfoSearchPageUI rows={mockRows} />;
+	const dispatch = useDispatch();
+	const loading = useSelector((state) => state.loading);
+	const [data, setData] = React.useState([]);
+
+	React.useEffect(() => {
+		const getData = async () => {
+			try {
+				dispatch(setLoading(true));
+				const files = await getFilesData();
+				dispatch(setLoading(false));
+				setData(files.files);
+			} catch (error) {
+				dispatch(setLoading(false));
+				console.error(error);
+			}
+		};
+		getData();
+	}, [dispatch]);
+	return <InfoSearchPageUI rows={data} loading={loading.isLoading} />;
 }
