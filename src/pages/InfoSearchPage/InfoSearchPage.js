@@ -29,9 +29,11 @@ function InfoSearchPage() {
 	return (
 		<>
 			<LoadingOverlay show={loading} />
-			<Container className="flex-column">
-				{data.files && <FilesTable rows={data.files} />}
-			</Container>
+			{data.files && (
+				<Container className="flex-column">
+					<FilesTable rows={data.files} />
+				</Container>
+			)}
 		</>
 	);
 }
